@@ -2,6 +2,7 @@
 
 // var config = require('config');
 // var crypto = require('crypto');
+var _ = require('lodash');
 var models = require('../models');
 var helper = require('../utils/helper');
 
@@ -25,7 +26,7 @@ class UserController {
       };
       models['User'].create(obj, (err, user) => {
         if (err) return next(err);
-        return res.json(user);
+        return res.status(200).json(user);
       });
     } catch (error) {
       return next(error);
@@ -45,9 +46,11 @@ class UserController {
       }
       models['User'].find(obj, (err, user) => {
         if (err) return next(err);
-        console.log(user[0]._id);
-        let token = helper.generateToken(user[0]._id);
-        return res.json({ code: 200, token});
+        if (!user.length) return next();
+        console.log(user[0]);
+        let resp = _.pick(user[0], ['_id', 'email', 'name']);
+        resp.token = helper.generateToken(resp._id);
+        return res.status(200).json({ code: 200, resp});
       });
 
     } catch (error) {

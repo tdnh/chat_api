@@ -20,7 +20,7 @@ class UserController {
 
       models['Room'].create(obj, (err, room) => {
         if (err) return next(err);
-        return res.json(room);
+        return res.status(200).json(room);
       });
     } catch (error) {
       return next(error);

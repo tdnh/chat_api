@@ -8,9 +8,20 @@ var Room = new Schema({
   password: String,
   admin: { type: Schema.Types.ObjectId, ref: 'User' },
   users: [{ type: Schema.Types.ObjectId, ref: 'User'}],
-  status: { type: Number, default: 1 },
-  ctime: { type: Date, default: Date.now },
-  utime: { type: Date, default: Date.now }
+  status: { type: Number, default: 1 }
+}, {
+  timestamps: true,
+  versionKey:false
+});
+
+
+Room.pre('save', function(next) {
+  this.update({}, {$set: {updateAt: new Date()}});
+  return next();
+});
+Room.pre('update', function(next) {
+  this.update({}, {$set: {updateAt: new Date()}});
+  return next();
 });
 
 
