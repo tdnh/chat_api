@@ -18,8 +18,8 @@ exports = module.exports = (io) => {
     });
 
     socket.on('message', (data) => {
-      console.log('socket id client', socket.id);
-      console.log('message data', data);
+      // console.log('socket id client', socket.id);
+      // console.log('message data', data);
       let obj = {
         body: data.message,
         author: data.user,
@@ -31,6 +31,7 @@ exports = module.exports = (io) => {
           console.log(err);
           return ;
         }
+        console.log('nessage new', message);
         socket.emit('message', message);
         socket.broadcast.to(data.roomId).emit('newMessage', message);
       });
