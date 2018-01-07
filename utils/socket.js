@@ -3,6 +3,7 @@
 
 var controllers = require('../controllers');
 var msgService = require('../services/messages');
+const userService = require('../services/user');
 
 
 exports = module.exports = (io) => {
@@ -14,7 +15,15 @@ exports = module.exports = (io) => {
 
     socket.on('join', (data) => {
       console.log(`user ${socket.id} join room with data ${JSON.stringify(data)}`);
-      socket.join(data.roomId);
+      userService.getDetail(data.user, (err, user) => {
+        if (err) {
+          console.log('userService::getDetail::error==> ', err);
+          return;
+        }
+        socket.join(data.roomId);
+        socket.emit('join', user);
+        socket.broadcast.to(data.roomId).emit('join', user);
+      });
     });
 
     socket.on('message', (data) => {
@@ -47,7 +56,7 @@ exports = module.exports = (io) => {
     });
 
     socket.on('disconnect', () => {
-      
+
     });
   });
 };
