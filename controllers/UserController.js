@@ -10,8 +10,6 @@ var helper = require('../utils/helper');
 
 class UserController {
 
-
-
   create (req, res, next) {
     try {
       let body = req.body;
@@ -62,6 +60,11 @@ class UserController {
 
   detail (req, res, next) {
     try {
+      // let id = req.query.id;
+      // models['User'].findOne({_id: ''}, (err, user) => {
+      //   if (err) return next(err);
+      //   return next();
+      // })
       return next();
     } catch (error) {
       return next(error);

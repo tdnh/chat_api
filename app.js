@@ -11,7 +11,8 @@ var socketEvent = require('./utils/socket');
 var io = require('socket.io')(server, {
   pingInterval: 10000,
   pingTimeout: 5000, 
-  cookie: false
+  cookie: false,
+  origins: '*'
 });
 var port = process.env.PORT || config['port'];
 

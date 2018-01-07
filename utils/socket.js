@@ -38,15 +38,16 @@ exports = module.exports = (io) => {
     });
 
     socket.on('typping', (data) => {
-
+      socket.broadcast.to(data.roomId).emit('typping', 'xxx');
     });
 
     socket.on('leave', (data) => {
       socket.leave(data.roomId);
+      socket.broadcast.to(data.roomId).emit('leave', 'xxx');
     });
 
     socket.on('disconnect', () => {
-
+      
     });
   });
 };

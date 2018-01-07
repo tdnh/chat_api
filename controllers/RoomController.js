@@ -35,6 +35,21 @@ class UserController {
     }
   }
 
+  getLists(req, res, next) {
+    try {
+      let query = {};
+      if (req.query.id) {
+        query = { _id: req.query.id };
+      }
+      models['Room'].find(query).populate('admin').populate('users').exec((err, rooms) => {
+        if (err) return next(err);
+        return res.status(200).json(rooms);
+      });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
 
   detail (req, res, next) {
     try {
