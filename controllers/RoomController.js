@@ -20,7 +20,7 @@ class UserController {
 
       models['Room'].create(obj, (err, room) => {
         if (err) return next(err);
-        room.populate('admin').populate('users').exec((err, roomInfo) => {
+        room.populate('admin').populate('users', (err, roomInfo) => {
           if (err) return next(err);
           return res.status(200).json(roomInfo);
         });
