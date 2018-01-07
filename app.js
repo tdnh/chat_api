@@ -46,10 +46,12 @@ app.all('*', (req, res, next) => {
 
 app.use(middleware);
 
-app.use('/', index);
+// app.use('/', index);
 app.use('/users', users);
 app.use('/rooms', rooms);
 app.use('/messages', messages);
+
+app.use('/',(req,res)=>{return res.render('index')});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
