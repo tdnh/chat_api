@@ -47,12 +47,12 @@ exports = module.exports = (io) => {
     });
 
     socket.on('typping', (data) => {
-      socket.broadcast.to(data.roomId).emit('typping', 'xxx');
+      socket.broadcast.to(data.roomId).emit('typping', data);
     });
 
     socket.on('leave', (data) => {
       socket.leave(data.roomId);
-      socket.broadcast.to(data.roomId).emit('leave', 'xxx');
+      socket.broadcast.to(data.roomId).emit('leave', data);
     });
 
     socket.on('disconnect', () => {
