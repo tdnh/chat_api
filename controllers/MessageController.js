@@ -30,23 +30,19 @@ class MessageController {
 
   getMessageInRoom(req, res, next) {
     try {
-      let idRoom = req.params.id;
+      let idRoom = req.query.roomId;
       let limit = req.query.limit || 20;
-      let offset = req.params.offset || 0;
+      let offset = req.query.offset || 0;
       models['Message'].find({room: idRoom})
-      .sort('-createdAt')
-      .limit(limit)
-      .offset(offset)
-      .populate({
-        path: 'User',
-        select: 'author.name, author._id'
-      })
+      .sort({ createdAt: -1 })
+      // .limit(limit)
+      // .offset(offset)
+      .populate('author', {name: 1, _id: 1})
       .lean()
       .exec((err, messages) => {
         if (err) return next(err);
         return res.status(200).json(messages);
       });
-      return next();
     } catch (error) {
       return next(error);
     }
