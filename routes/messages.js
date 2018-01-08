@@ -9,6 +9,6 @@ var MessageController = require('../controllers')['MessageController'];
 
 router.post('/', MessageController.create);
 
-router.get('/rooms/:id', MessageController.getMessageInRoom);
+router.get('/rooms/:id/messages', MessageController.getMessageInRoom);
 
 module.exports = router;
