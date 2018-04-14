@@ -1,8 +1,9 @@
 'use strict';
 
 
-var controllers = require('../controllers');
-var msgService = require('../services/messages');
+const _ = require('lodash');
+const controllers = require('../controllers');
+const msgService = require('../services/messages');
 const userService = require('../services/user');
 
 
@@ -48,6 +49,18 @@ exports = module.exports = (io) => {
 
     socket.on('typping', (data) => {
       socket.broadcast.to(data.roomId).emit('typping', data);
+    });
+
+    socket.on('seen', (data) => {
+      let { messageId, roomId, userId } = _.pick(data, ['messageId', 'roomId', 'userId']);
+      if (!messageId || !roomId || !userId) {
+        console.log('messageId::',messageId);
+        console.log('roomId::',roomId);
+        console.log('userId::',userId);
+        return;
+      }
+
+      
     });
 
     socket.on('leave', (data) => {

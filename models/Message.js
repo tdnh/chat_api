@@ -5,6 +5,7 @@ var Schema = mongoose.Schema;
 
 var Message = new Schema({
   body: String,
+  seen: Boolean,
   author: { type: Schema.Types.ObjectId, ref: 'User' },
   room: { type: Schema.Types.ObjectId, ref: 'Room' }
 }, {

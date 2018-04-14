@@ -1,18 +1,40 @@
 'use strict';
 
-var _ = require('lodash');
-var models = require('../models');
+module.exports = (() => {
+
+
+  const _ = require('lodash');
+  const models = require('../models');
 
 
 
-function getDetail(id, cb) {
-  models['User'].findOne({_id: id}, (err, user) => {
-    if (err) return cb(err);
-    return cb(null, user);
-  });
-}
+  function getDetail(_id, cb) {
+    try {
+      return models.User.findOne({ _id }, cb);
+    } catch (error) {
+      throw error;
+    }
+  }
 
+  async function getDetailByName(name) {
+    try {
+      return await models.User.findOne({ name });
+    } catch (error) {
+      throw error;
+    }
+  }
 
-module.exports = {
-  getDetail
-}
+  async function createAnonymous(user) {
+    try {
+      return await models.User.create(user);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  return {
+    getDetail,
+    getDetailByName,
+    createAnonymous
+  }
+})();

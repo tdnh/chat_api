@@ -1,14 +1,16 @@
 'use strict';
 
 var models = require('../models');
-
+const UserService = require('../services/user');
+const RoomService = require('../services/room');
+const uuidv4 = require('uuid/v4');
 
 
 class UserController {
 
 
 
-  create (req, res, next) {
+  create(req, res, next) {
     try {
       let body = req.body;
       if (!body.name) return next();
@@ -30,7 +32,33 @@ class UserController {
     }
   }
 
-  update (req, res, next) {
+  createAnonymous(req, res, next) {
+    try {
+      let uuid = uuidv4();
+      let user = { name: uuid, email: `${uuid}@tnh.tech` };
+      UserService.createAnonymous(user)
+        .then(u => {
+          let obj = {
+            name: uuid,
+            users: [u]
+          }
+          RoomService.create(obj)
+            .then(r => {
+              return res.status(200).json(r);
+            })
+            .catch(e => {
+              return next(e);
+            });
+        })
+        .catch(e => {
+          return next(e);
+        });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  update(req, res, next) {
     try {
       return next();
     } catch (error) {
@@ -54,7 +82,7 @@ class UserController {
   }
 
 
-  detail (req, res, next) {
+  detail(req, res, next) {
     try {
       return next();
     } catch (error) {

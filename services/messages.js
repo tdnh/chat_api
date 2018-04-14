@@ -11,13 +11,13 @@ function createMessage(params, cb) {
     // console.log(err);
     // console.log('new message ',message);
     // if (err) return cb(err);
-    // return cb(err, message)
-    message.populate('author', (err, messg) => {
-      // console.log(err);
-      // console.log('new message ',message);
-      if (err) return cb(err);
-      return cb(null, messg);
-    });
+    return cb(err, message)
+    // message.populate('author', (err, messg) => {
+    //   // console.log(err);
+    //   // console.log('new message ',message);
+    //   if (err) return cb(err);
+    //   return cb(null, messg);
+    // });
   });
 }
 

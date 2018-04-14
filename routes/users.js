@@ -9,4 +9,6 @@ router.post('/login', UserController.login);
 
 router.post('/', UserController.create);
 
+router.post('/anonymous', UserController.createAnonymousUser);
+
 module.exports = router;

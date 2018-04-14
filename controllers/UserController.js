@@ -5,12 +5,14 @@
 var _ = require('lodash');
 var models = require('../models');
 var helper = require('../utils/helper');
+const UserService = require('../services/user');
+const uuidv4 = require('uuid/v4');
 
 
 
 class UserController {
 
-  create (req, res, next) {
+  create(req, res, next) {
     try {
       let body = req.body;
       if (!body.email || !body.password || !body.name) return next();
@@ -31,7 +33,23 @@ class UserController {
     }
   }
 
-  login (req, res, next) {
+  createAnonymousUser(req, res, next) {
+    try {
+      let name = uuidv4();
+      let obj = { name, email: `${name}@tnh.com` };
+      UserService.createAnonymous(obj)
+        .then(user => {
+          return res.status(200).json(user);
+        })
+        .catch(e => {
+          return next(e);
+        });
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  login(req, res, next) {
     try {
       let body = req.body;
       if (!body.email || !body.password) return next();
@@ -48,7 +66,7 @@ class UserController {
         console.log(user[0]);
         let resp = _.pick(user[0], ['_id', 'email', 'name']);
         resp.token = helper.generateToken(resp._id);
-        return res.status(200).json({ code: 200, resp});
+        return res.status(200).json({ code: 200, resp });
       });
 
     } catch (error) {
@@ -58,7 +76,7 @@ class UserController {
 
 
 
-  detail (req, res, next) {
+  detail(req, res, next) {
     try {
       // let id = req.query.id;
       // models['User'].findOne({_id: ''}, (err, user) => {

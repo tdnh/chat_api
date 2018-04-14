@@ -9,4 +9,6 @@ router.get('/:id', RoomController.getLists);
 
 router.post('/', RoomController.create);
 
+router.post('/anonymous', RoomController.createAnonymous);
+
 module.exports = router;

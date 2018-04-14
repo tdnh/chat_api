@@ -1,26 +1,28 @@
 'use strict';
 
-var mongoose = require('mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+const constant = require('../utils/constants');
 
-var Room = new Schema({
+const Room = new Schema({
   name: String,
   password: String,
   admin: { type: Schema.Types.ObjectId, ref: 'User' },
-  users: [{ type: Schema.Types.ObjectId, ref: 'User'}],
-  status: { type: Number, default: 1 }
+  users: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+  roomType: { type: Number, default: constant.ROOM.TYPE.ANONYMOUS },
+  status: { type: Number, default: constant.ROOM.STATUS.NEW },
 }, {
-  timestamps: true,
-  versionKey:false
-});
+    timestamps: true,
+    versionKey: false
+  });
 
 
-Room.pre('save', function(next) {
-  this.update({}, {$set: {updateAt: new Date()}});
+Room.pre('save', function (next) {
+  this.update({}, { $set: { updateAt: new Date() } });
   return next();
 });
-Room.pre('update', function(next) {
-  this.update({}, {$set: {updateAt: new Date()}});
+Room.pre('update', function (next) {
+  this.update({}, { $set: { updateAt: new Date() } });
   return next();
 });
 
